@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Prediction</title>
+</head>
+<body>
+    <h1>Salary Prediction</h1>
+    <form method="POST">
+        <label for="experience">Enter your experience:</label>
+        <input type="number" id="experience" name="experience">
+        <label for="project_completed">Enter number of projects completed:</label>
+        <input type="number" id="project_completed" name="project_completed">
+        <button type="submit">Predict Salary</button>
+    </form>
+    {% if prediction %}
+        <p>Predicted Salary: {{ prediction }}</p>
+    {% endif %}
+</body>
+</html>
+
+
