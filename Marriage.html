@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marriage Prediction</title>
+</head>
+<body>
+    <h1>Marriage Prediction</h1>
+    <form id="marriageForm">
+        <label for="ageGap">Age Gap:</label>
+        <input type="number" id="ageGap" name="ageGap" required><br><br>
+        
+        <label for="education">Education:</label>
+        <input type="number" id="education" name="education" required><br><br>
+        
+        <label for="independent">Independent:</label>
+        <input type="number" id="independent" name="independent" required><br><br>
+        
+        <button type="submit">Predict Marriage</button>
+    </form>
+
+    <div id="predictionResult"></div>
+
+    <script>
+        document.getElementById("marriageForm").addEventListener("submit", function(event){
+            event.preventDefault();
+            var formData = {
+                "Age_Gap": parseInt(document.getElementById("ageGap").value),
+                "Education": parseInt(document.getElementById("education").value),
+                "Independent": parseInt(document.getElementById("independent").value)
+            };
+            fetch('/Marriage_prediction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"Marriage_data": formData})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("predictionResult").innerText = "Prediction: " + data.prediction;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
+
