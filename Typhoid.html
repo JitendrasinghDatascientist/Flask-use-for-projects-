@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typhoid Prediction</title>
+    <script>
+        function predictTyphoid() {
+            var formData = {
+                prolonged_fever: document.getElementById("prolonged_fever").value,
+                headache: document.getElementById("headache").value,
+                fatigue: document.getElementById("fatigue").value,
+                abdominal_pain: document.getElementById("abdominal_pain").value,
+                diarrhea: document.getElementById("diarrhea").value,
+                rash: document.getElementById("rash").value
+            };
+
+            fetch('/predict_typhoid', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ health_metrics: formData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("prediction_result").innerText = data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Typhoid Prediction</h1>
+    <form>
+        <label for="prolonged_fever">Prolonged fever (more than 5 days)? (1 for Yes, 0 for No): </label>
+        <input type="number" id="prolonged_fever" min="0" max="1"><br><br>
+
+        <label for="headache">Headache? (1 for Yes, 0 for No): </label>
+        <input type="number" id="headache" min="0" max="1"><br><br>
+
+        <label for="fatigue">Fatigue? (1 for Yes, 0 for No): </label>
+        <input type="number" id="fatigue" min="0" max="1"><br><br>
+
+        <label for="abdominal_pain">Abdominal pain? (1 for Yes, 0 for No): </label>
+        <input type="number" id="abdominal_pain" min="0" max="1"><br><br>
+
+        <label for="diarrhea">Diarrhea? (1 for Yes, 0 for No): </label>
+        <input type="number" id="diarrhea" min="0" max="1"><br><br>
+
+        <label for="rash">Rash? (1 for Yes, 0 for No): </label>
+        <input type="number" id="rash" min="0" max="1"><br><br>
+
+        <button type="button" onclick="predictTyphoid()">Predict</button>
+    </form>
+
+    <div id="prediction_result"></div>
+</body>
+</html>

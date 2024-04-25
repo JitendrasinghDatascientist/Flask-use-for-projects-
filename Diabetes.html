@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Prediction</title>
+</head>
+<body>
+    <h1>Diabetes Risk Prediction</h1>
+    <form id="diabetesForm">
+        <label for="glucose_level">Glucose Level:</label>
+        <input type="number" id="glucose_level" name="glucose_level" required><br><br>
+
+        <label for="blood_pressure">Blood Pressure:</label>
+        <input type="number" id="blood_pressure" name="blood_pressure" required><br><br>
+
+        <label for="insulin">Insulin:</label>
+        <input type="number" id="insulin" name="insulin" required><br><br>
+
+        <label for="bmi">BMI:</label>
+        <input type="number" id="bmi" name="bmi" required><br><br>
+
+        <button type="submit">Predict Diabetes Risk</button>
+    </form>
+
+    <div id="predictionResult"></div>
+
+    <script>
+        document.getElementById('diabetesForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const jsonData = {};
+            formData.forEach((value, key) => {jsonData[key] = value;});
+            
+            fetch('/Diabetes_prediction', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({health_metrics: jsonData})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').innerText = data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
